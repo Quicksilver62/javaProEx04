@@ -1,0 +1,28 @@
+package ru.vtb.java.pro.ex04;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.vtb.java.pro.ex04.config.AppConfig;
+import ru.vtb.java.pro.ex04.domain.User;
+import ru.vtb.java.pro.ex04.services.UserService;
+
+public class Ex04Application {
+
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        UserService userService = context.getBean(UserService.class);
+
+        User user = userService.createUser("John Doe");
+        System.out.println("Создан пользователь: " + user);
+
+        User foundUser = userService.findUserById(user.getId());
+        System.out.println("Найден пользователь: " + foundUser);
+
+        userService.createUser("Richard Roe");
+        System.out.println("Все пользователи: " + userService.findAllUsers());
+
+        userService.deleteUser(1L);
+        System.out.println("Пользователи после удаления: " + userService.findAllUsers());
+    }
+}
